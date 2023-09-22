@@ -10,7 +10,7 @@ from src.modelo.interprete import Interprete
 
 
 class CancionTestCase(unittest.TestCase):
-
+    print('a')
     def setUp(self):
         self.session = Session()
         self.coleccion = Coleccion()

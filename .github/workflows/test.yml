@@ -1,16 +1,21 @@
-name: CI
+name: MISW4101-202314-Grupo042
 
 # Controls when the action will run. 
 on:
   push:
-    branches: [ develop ]
+    branches:   
+      - develop 
+      - 'ENFORMA-HU**'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   job1:
-    name: Pruebas
+    name: Pruebas 
     runs-on: ubuntu-latest
     steps:
+    - name: Validar mensaje de HU implementada
+      if: ${{ contains(github.event.head_commit.message, 'Hecho') }}
+      run: echo "Mensaje de HU implementada válido"
     - name: Checkout de repositorio
       uses: actions/checkout@v2
     - name: Configuración de entorno de python

@@ -18,6 +18,8 @@ class InterpreteTestCase(unittest.TestCase):
     print('dessde lara mas')
     print('dessde lara mas')
     print('dessde lara mas')
+    print('dessde   lara mas')
+    print('dessde lara mas')
     print('dessde lara mas')
     print('dessde lara mas')
     print('dessde lara mas')

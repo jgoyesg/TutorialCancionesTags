@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       accion: ${{ steps.validar-palabra.outputs.accion }}
+    if: ${{ github.ref == 'develop' }}
     steps:
     - name: Validar Palabra en el commit
       id: validar-palabra
@@ -23,10 +24,8 @@ jobs:
     name: Crear Release y Mezclar con Main
     needs: validar-palabra
     runs-on: ubuntu-latest
+    if: ${{ github.ref == 'develop' }}
     steps:
-    - name: Salimos si la rama es main
-      run: exit(0)
-
     - name: Checkout de repositorio
       uses: actions/checkout@v2
 

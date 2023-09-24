@@ -44,6 +44,9 @@ class Coleccion():
         except:
             return False
 
+
+    
+
     def dar_albumes(self):
         albumes = [elem.__dict__ for elem in session.query(Album).all()]
         for album in albumes:

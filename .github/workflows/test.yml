@@ -53,3 +53,9 @@ jobs:
     - name: Imprimir
       id: imprimir
       run: echo ${{needs.correr-pruebas.outputs.accion}}
+    - name: Verificar accion
+      if: ${{needs.correr-pruebas.outputs.accion == 'Merge a develop' && contains(github.ref, 'ENFORMA-HU') }} 
+      run: echo "Se puede hacer merge a develop"
+    - name: Verificar accion release
+      if: ${{needs.correr-pruebas.outputs.accion == 'Generar release'}} 
+      run: echo "Se puede generar release"

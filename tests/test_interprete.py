@@ -13,6 +13,7 @@ class InterpreteTestCase(unittest.TestCase):
     print('desde lara ma')
     print('desde lara mas')
     print('dessde lara mas')
+    print('dessde lara mas')
     def setUp(self):
         self.session = Session()
         self.coleccion = Coleccion()

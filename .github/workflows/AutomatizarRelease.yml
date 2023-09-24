@@ -2,7 +2,9 @@ name: Automatizar Creación de Release y Mezcla con Master
 
 on:
   push:
-    branches: [ develop ]
+    branches: 
+    - develop
+    - main
 jobs:
   validar-palabra:
     name: Validar Palabra
@@ -22,6 +24,9 @@ jobs:
     needs: validar-palabra
     runs-on: ubuntu-latest
     steps:
+    - name: Salimos si la rama es main
+      run: exit(0)
+
     - name: Checkout de repositorio
       uses: actions/checkout@v2
 
@@ -47,9 +52,9 @@ jobs:
       run: python -m unittest discover -s tests -v
 
     - name: Validar resultado sin errores y Mezclar con main
-      if: ${{ success() }}
+      if: ${{ success() && needs.validar-palabra.outputs.accion ==  'Release' }}
       uses: tukasz/direct-merge-action@master
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         source-branch: release-semana-7
-        target-branch: origin/main
+        target-branch: main

@@ -54,12 +54,18 @@ jobs:
     - name: Imprimir
       id: imprimir
       run: echo ${{needs.Correr-Pruebas.outputs.accion}}
-    - name: Verificar accion
+    - name: Mezcla RamaFeature -> develop
       if: ${{needs.Correr-Pruebas.outputs.accion == 'Merge a develop' && contains(github.ref, 'ENFORMA-HU') }} 
-      run: echo "Se puede hacer merge a develop"
+      uses: tukasz/direct-merge-action@master
+      with:
+        GITHUB_TOKEN: secrets.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
+        source-branch: ${{github.ref}}
+        target-branch: develop
     - name: Verificar accion release
       if: ${{needs.Correr-Pruebas.outputs.accion == 'Generar release'}} 
       run: echo "Se puede generar release"
     - name: Imprimir respuesta
       id: imprimir-respuesta
       run: echo ${{needs.Correr-Pruebas.outputs.respuesta}}
+    
+      

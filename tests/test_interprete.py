@@ -16,6 +16,7 @@ class InterpreteTestCase(unittest.TestCase):
     print('dessde lara mas')
     print('dessde lara mas')
     print('dessde lara mas')
+    print('dessde lara mas')
     def setUp(self):
         self.session = Session()
         self.coleccion = Coleccion()

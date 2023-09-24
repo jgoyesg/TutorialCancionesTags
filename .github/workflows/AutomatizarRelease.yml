@@ -31,19 +31,19 @@ jobs:
         python-version: '3.7' 
 
     - name: Instalación de dependencias
-      if: ${{needs.Correr-Pruebas.outputs.accion ==  'Release'}}
+      if: ${{needs.validar-palabra.outputs.accion ==  'Release'}}
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt  
   
     - name: Crear Rama de Release y Combina con la Rama develop
-      if: ${{needs.Correr-Pruebas.outputs.accion ==  'Release'}}
+      if: ${{needs.validar-palabra.outputs.accion ==  'Release'}}
       run: |
         git checkout -b release-semana-7
         git pull origin develop
 
     - name: Verificar Pruebas en la Rama de Release
-      if: ${{needs.Correr-Pruebas.outputs.accion ==  'Release'}}
+      if: ${{needs.validar-palabra.outputs.accion ==  'Release'}}
       run: python -m unittest discover -s tests -v
 
     - name: Validar resultado sin errores y Mezclar con main

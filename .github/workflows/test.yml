@@ -32,7 +32,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Mezcla RamaFeature -> develop y corre pruebas
-      if: ${{needs.Correr-Pruebas.outputs.accion == 'Merge a develop' }} 
+      if: ${{needs.Correr-Pruebas.outputs.accion == 'Merge de develop' }} 
       uses: tukasz/direct-merge-action@master
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -57,7 +57,7 @@ jobs:
         MENSAJE_ERROR: Una o varias pruebas fallaron
       run: echo "::set-output name=respuesta::${MENSAJE_ERROR}"
     - name: Validar resultado sin errores
-      if: ${{ success() && needs.Correr-Pruebas.outputs.accion == 'Merge a develop' }}
+      if: ${{ success() && needs.Correr-Pruebas.outputs.accion == 'Merge de develop' }}
       uses: tukasz/direct-merge-action@master
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

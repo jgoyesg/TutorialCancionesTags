@@ -12,6 +12,8 @@ class InterpreteTestCase(unittest.TestCase):
     print('hok      a')
     print('hok      a')
     print('hok      a')
+    print('hok      a')
+    print('hok      a')
     print('desde lara ma')
     print('desde lara mas')
     print('dessde lara mas')

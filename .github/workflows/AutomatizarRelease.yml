@@ -3,8 +3,7 @@ name: Automatizar Creación de Release y Mezcla con Master
 on:
   push:
     branches: 
-    - 'develop'
-    - 'main'
+      - develop
 jobs:
   validar-palabra:
     name: Validar Palabra
@@ -42,8 +41,7 @@ jobs:
       if: ${{needs.validar-palabra.outputs.accion ==  'Release'}}
       run: |
         git checkout -b release-semana-7
-        git pull origin develop
-        git fetch
+        git push -f -u origin release-semana-7
 
     - name: Verificar Pruebas en la Rama de Release
       if: ${{needs.validar-palabra.outputs.accion ==  'Release'}}
@@ -55,4 +53,4 @@ jobs:
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         source-branch: release-semana-7
-        target-branch: main
+        target-branch: origin/main

@@ -40,8 +40,8 @@ jobs:
     - name: Crear Rama de Release y Combina con la Rama develop
       if: ${{needs.validar-palabra.outputs.accion ==  'Release'}}
       run: |
-        git checkout -b release-semana-7
-        git push -f -u origin release-semana-7
+        git checkout -b release-semana-n
+        git push -f -u origin release-semana-n
 
     - name: Verificar Pruebas en la Rama de Release
       if: ${{needs.validar-palabra.outputs.accion ==  'Release'}}
@@ -53,4 +53,4 @@ jobs:
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         source-branch: release-semana-7
-        target-branch: origin/main
+        target-branch: main

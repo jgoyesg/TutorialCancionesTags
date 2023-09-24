@@ -1,0 +1,56 @@
+name: Automatizar Creación de Release y Mezcla con Master
+
+on:
+  push:
+    branches: [ develop ]
+jobs:
+  validar-palabra:
+    name: Validar Palabra
+    runs-on: ubuntu-latest
+    outputs:
+      accion: ${{ steps.validar-palabra.outputs.accion }}
+    steps:
+    - name: Validar Palabra en el commit
+      id: validar-palabra
+      if: ${{ contains(github.event.head_commit.message, 'Release') }}
+      env:
+        ACCION: Release
+      run: echo "::set-output name=accion::${ACCION}"
+      
+  crear-release-y-mezclar:
+    name: Crear Release y Mezclar con Main
+    needs: validar-palabra
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout de repositorio
+      uses: actions/checkout@v2
+
+    - name: Configuración de entorno de Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.7' 
+
+    - name: Instalación de dependencias
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt  
+  
+    - name: Crear Rama de Release y Combina con la Rama develop
+      if: ${{needs.Correr-Pruebas.outputs.accion ==  'Release'}}
+      run: |
+        git checkout -b release-semana-7
+        git pull origin develop
+
+    - name: Verificar Pruebas en la Rama de Release
+      run: python -m unittest discover -s tests -v
+
+    - name: Validar resultado sin errores cambia a la rama main
+      if: ${{ success() }}
+      run: git checkout main
+
+    - name: Mezclar con main
+      uses: tukasz/direct-merge-action@master
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        source-branch: release-semana-7
+        target-branch: main

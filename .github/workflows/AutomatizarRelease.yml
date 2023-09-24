@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Salimos si la rama es main
-      run: exit(1)
+      run: exit(0)
 
     - name: Checkout de repositorio
       uses: actions/checkout@v2

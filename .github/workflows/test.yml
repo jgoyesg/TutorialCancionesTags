@@ -58,7 +58,7 @@ jobs:
       if: ${{needs.Correr-Pruebas.outputs.accion == 'Merge a develop' && contains(github.ref, 'ENFORMA-HU') }} 
       uses: tukasz/direct-merge-action@master
       with:
-        GITHUB_TOKEN: secrets.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
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         source-branch: ${{github.ref}}
         target-branch: develop
     - name: Verificar accion release

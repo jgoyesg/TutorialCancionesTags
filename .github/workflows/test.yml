@@ -32,7 +32,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Mezcla RamaFeature -> develop y corre pruebas
-      if: ${{needs.Correr-Pruebas.outputs.accion == 'Merge a develop' && contains(github.ref, 'ENFORMA-HU') }} 
+      if: ${{needs.Correr-Pruebas.outputs.accion == 'Merge a develop' }} 
       uses: tukasz/direct-merge-action@master
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -57,9 +57,11 @@ jobs:
         MENSAJE_ERROR: Una o varias pruebas fallaron
       run: echo "::set-output name=respuesta::${MENSAJE_ERROR}"
     - name: Validar resultado sin errores
-      if: ${{ success() }}
-      env:
-        MENSAJE_EXITO: Todas las pruebas fueron exitosas
-      run: echo "::set-output name=respuesta::${MENSAJE_EXITO}"
+      if: ${{ success() && needs.Correr-Pruebas.outputs.accion == 'Merge a develop' }}
+      uses: tukasz/direct-merge-action@master
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        source-branch: ${{github.ref}}
+        target-branch: develop
     
       

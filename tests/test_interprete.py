@@ -9,6 +9,17 @@ from src.modelo.interprete import Interprete
 
 
 class InterpreteTestCase(unittest.TestCase):
+    print('hok      a')
+    print('desde lara ma')
+    print('desde lara mas')
+    print('dessde lara mas')
+    print('dessde lara mas')
+    print('dessde lara mas')
+    print('dessde lara mas')
+    print('dessde lara mas')
+    print('dessde lara mas')
+    print('dessde lara mas')
+    print('dessde lara mas')
 
     def setUp(self):
         self.session = Session()

@@ -9,14 +9,15 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  correr-pruebas:
+  Correr-Pruebas:
     name: Pruebas 
     runs-on: ubuntu-latest
     outputs:
       respuesta: ${{ steps.correr-pruebas.outputs.respuesta }}
-      accion: ${{ steps.correr-pruebas.outputs.accion }}
+      accion: ${{ steps.validar-mensaje.outputs.accion }}
     steps:
     - name: Validar mensaje de HU implementada
+      id: validar-mensaje
       if: ${{ contains(github.event.head_commit.message, 'Hecho') }}
       env:
         ACCION: Merge a develop
@@ -46,19 +47,19 @@ jobs:
       if: ${{github.ref=='develop' }}
       run: echo "Mensaje de HU implementada válido"
   Mi-segundo-job:
-    needs: correr-pruebas
+    needs: Correr-Pruebas
     name: Mi segundo job
     runs-on: ubuntu-latest
     steps:
     - name: Imprimir
       id: imprimir
-      run: echo ${{needs.correr-pruebas.outputs.accion}}
+      run: echo ${{needs.Correr-Pruebas.outputs.accion}}
     - name: Verificar accion
-      if: ${{needs.correr-pruebas.outputs.accion == 'Merge a develop' && contains(github.ref, 'ENFORMA-HU') }} 
+      if: ${{needs.Correr-Pruebas.outputs.accion == 'Merge a develop' && contains(github.ref, 'ENFORMA-HU') }} 
       run: echo "Se puede hacer merge a develop"
     - name: Verificar accion release
-      if: ${{needs.correr-pruebas.outputs.accion == 'Generar release'}} 
+      if: ${{needs.Correr-Pruebas.outputs.accion == 'Generar release'}} 
       run: echo "Se puede generar release"
     - name: Imprimir respuesta
       id: imprimir-respuesta
-      run: echo ${{needs.correr-pruebas.outputs.respuesta}}
+      run: echo ${{needs.Correr-Pruebas.outputs.respuesta}}

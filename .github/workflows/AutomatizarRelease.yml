@@ -52,4 +52,4 @@ jobs:
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         source-branch: release-semana-7
-        target-branch: main
+        target-branch: origin/main

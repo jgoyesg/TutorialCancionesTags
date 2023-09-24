@@ -27,6 +27,9 @@ jobs:
     name: Mi segundo job
     runs-on: ubuntu-latest
     steps:
+    
+    - name: Checkout de repositorio
+      uses: actions/checkout@v2
 
     - name: Mezcla RamaFeature -> develop y corre pruebas
       if: ${{needs.Correr-Pruebas.outputs.accion == 'Merge a develop' && contains(github.ref, 'ENFORMA-HU') }} 

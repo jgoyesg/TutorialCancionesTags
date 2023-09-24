@@ -1,10 +1,9 @@
-name: MISW4101-202314-Grupo042
+name: Merge de Develop
 
 # Controls when the action will run. 
 on:
   push:
-    branches:   
-      - develop 
+    branches:
       - 'ENFORMA-HU**'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -20,10 +19,23 @@ jobs:
       id: validar-mensaje
       if: ${{ contains(github.event.head_commit.message, 'Hecho') }}
       env:
-        ACCION: Merge a develop
+        ACCION: Merge de develop
       run: echo "::set-output name=accion::${ACCION}"
-    - name: Checkout de repositorio
-      uses: actions/checkout@v2
+
+  Mi-segundo-job:
+    needs: Correr-Pruebas
+    name: Mi segundo job
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Mezcla RamaFeature -> develop y corre pruebas
+      if: ${{needs.Correr-Pruebas.outputs.accion == 'Merge a develop' && contains(github.ref, 'ENFORMA-HU') }} 
+      uses: tukasz/direct-merge-action@master
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        source-branch: develop
+        target-branch: ${{github.ref}}
+        
     - name: Configuración de entorno de python
       uses: actions/setup-python@v2
       with:
@@ -37,36 +49,13 @@ jobs:
       run: python -m unittest discover -s tests -v
     - name: Validar resultado con errores
       if: ${{ failure() }}
-      run: exit(1)
+      env:
+        MENSAJE_ERROR: Una o varias pruebas fallaron
+      run: echo "::set-output name=respuesta::${MENSAJE_ERROR}"
     - name: Validar resultado sin errores
       if: ${{ success() }}
       env:
         MENSAJE_EXITO: Todas las pruebas fueron exitosas
       run: echo "::set-output name=respuesta::${MENSAJE_EXITO}"
-    - name: Nombre para identificar la rama
-      if: ${{github.ref=='develop' }}
-      run: echo "Mensaje de HU implementada válido"
-  Mi-segundo-job:
-    needs: Correr-Pruebas
-    name: Mi segundo job
-    runs-on: ubuntu-latest
-    steps:
-    - name: Imprimir
-      id: imprimir
-      run: echo ${{needs.Correr-Pruebas.outputs.accion}}
-    - name: Mezcla RamaFeature -> develop y corre pruebas
-      if: ${{needs.Correr-Pruebas.outputs.accion == 'Merge a develop' && contains(github.ref, 'ENFORMA-HU') }} 
-      uses: tukasz/direct-merge-action@master
-      with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        source-branch: ${{github.ref}}
-        target-branch: develop
-        run: python -m unittest discover -s tests -v
-    - name: Verificar accion release
-      if: ${{needs.Correr-Pruebas.outputs.accion == 'Generar release' && github.ref == 'develop' }} 
-      run: echo "Se puede generar release"
-    - name: Imprimir respuesta
-      id: imprimir-respuesta
-      run: echo ${{needs.Correr-Pruebas.outputs.respuesta}}
     
       

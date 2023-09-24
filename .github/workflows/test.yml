@@ -19,8 +19,8 @@ jobs:
     - name: Validar mensaje de HU implementada
       if: ${{ contains(github.event.head_commit.message, 'Hecho') }}
       env:
-        ACCION: Merge a develop
-      run: echo "::set-output name=accion::${accion}"
+        ACCION: 'Merge a develop'
+      run: echo "::set-output name=accion::${ACCION}"
     - name: Checkout de repositorio
       uses: actions/checkout@v2
     - name: Configuración de entorno de python

@@ -9,13 +9,18 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  job1:
+  correr-pruebas:
     name: Pruebas 
     runs-on: ubuntu-latest
+    outputs:
+      respuesta: ${{ steps.correr-pruebas.outputs.respuesta }}
+      accion: ${{ steps.correr-pruebas.outputs.accion }}
     steps:
     - name: Validar mensaje de HU implementada
       if: ${{ contains(github.event.head_commit.message, 'Hecho') }}
-      run: echo "Mensaje de HU implementada válido"
+      env:
+        ACCION: Merge a develop
+      run: echo "::set-output name=accion::${accion}"
     - name: Checkout de repositorio
       uses: actions/checkout@v2
     - name: Configuración de entorno de python
@@ -29,3 +34,22 @@ jobs:
     - name: Correr pruebas
       id: correr-pruebas
       run: python -m unittest discover -s tests -v
+    - name: Validar resultado con errores
+      if: ${{ failure() }}
+      run: exit(1)
+    - name: Validar resultado sin errores
+      if: ${{ success() }}
+      env:
+        MENSAJE_EXITO: Todas las pruebas fueron exitosas
+      run: echo "::set-output name=respuesta::${MENSAJE_EXITO}"
+    - name: Nombre para identificar la rama
+      if: ${{github.ref=='develop' }}
+      run: echo "Mensaje de HU implementada válido"
+  Mi-segundo-job:
+    needs: correr-pruebas
+    name: Mi segundo job
+    runs-on: ubuntu-latest
+    steps:
+    - name: Imprimir
+      id: imprimir
+      run: echo ${{needs.correr-pruebas.outputs.accion}}

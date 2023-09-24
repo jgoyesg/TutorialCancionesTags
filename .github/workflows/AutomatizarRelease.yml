@@ -3,8 +3,8 @@ name: Automatizar Creación de Release y Mezcla con Master
 on:
   push:
     branches: 
-    - develop
-    - main
+    - 'develop'
+    - 'main'
 jobs:
   validar-palabra:
     name: Validar Palabra
@@ -43,6 +43,7 @@ jobs:
       run: |
         git checkout -b release-semana-7
         git pull origin develop
+        git fetch
 
     - name: Verificar Pruebas en la Rama de Release
       if: ${{needs.validar-palabra.outputs.accion ==  'Release'}}

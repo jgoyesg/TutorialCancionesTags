@@ -52,7 +52,7 @@ class InterpreteTestCase(unittest.TestCase):
         texto_curiosidades = self.data_factory.text()
         self.coleccion.agregar_interprete(nombre_interprete, texto_curiosidades, -1)
         consulta = self.session.query(Interprete).filter(Interprete.nombre == nombre_interprete).first().nombre
-        self.assertEqual(consulta, nombre_interprete)
+        self.assertEqual(consulta, 'nombre_interprete')
 
     def testEditarInterprete(self):
         nombre_interprete = self.data_factory.name()

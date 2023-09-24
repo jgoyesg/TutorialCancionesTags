@@ -9,7 +9,7 @@ from src.modelo.interprete import Interprete
 
 
 class InterpreteTestCase(unittest.TestCase):
-    print('hoka')
+    print('hola')
     def setUp(self):
         self.session = Session()
         self.coleccion = Coleccion()

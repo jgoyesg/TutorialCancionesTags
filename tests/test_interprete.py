@@ -10,6 +10,7 @@ from src.modelo.interprete import Interprete
 
 class InterpreteTestCase(unittest.TestCase):
     print('hok      a')
+    print('desde lara ma')
     def setUp(self):
         self.session = Session()
         self.coleccion = Coleccion()

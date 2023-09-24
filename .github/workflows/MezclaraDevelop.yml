@@ -1,0 +1,28 @@
+name: Verificar Pruebas al Mezclar a Develop
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  verificar-pruebas:
+    name: Verificar Pruebas
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout de repositorio
+      uses: actions/checkout@v2
+
+    - name: Configuración de entorno de Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.7'  # Especifica la versión de Python que necesitas
+
+    - name: Instalación de dependencias
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt  # Ajusta el nombre de tu archivo de requisitos
+
+    - name: Ejecutar Pruebas
+      run: python -m unittest discover -s tests -v
